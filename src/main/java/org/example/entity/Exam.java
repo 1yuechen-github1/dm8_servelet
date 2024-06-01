@@ -11,8 +11,7 @@ import lombok.Setter;
 public class Exam {
     private int id;
     private String name;
-    private Integer courseId;
+    private int courseId;
     private String startTime;
-    private String endTime;
-
+    private int createTeacher;
 }

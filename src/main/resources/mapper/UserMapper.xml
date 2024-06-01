@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.Mapper.UserMapper">
+
+    <!-- Result map to map result set to User object -->
+    <resultMap id="BaseResultMap" type="org.example.entity.User">
+        <id column="id" property="id"/>
+        <result column="username" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <!-- 插入新用户 -->
+    <insert id="insertUser" parameterType="org.example.entity.User">
+        INSERT INTO "dm8"."users" ("username", "password", "status", "create_time","position")
+        VALUES (#{userName}, #{password}, #{status}, #{createTime}, #{position})
+    </insert>
+
+    <!-- SQL query to get user by username -->
+    <select id="getUserByUserName" resultMap="BaseResultMap">
+        SELECT *
+        FROM "dm8"."users"
+        WHERE "username" = #{userName}
+    </select>
+</mapper>
