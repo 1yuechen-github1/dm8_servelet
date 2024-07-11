@@ -1,4 +1,4 @@
-package org.example.Controller;
+package org.example.Controller.Student;
 
 import org.example.Service.ObjectService;
 import org.example.Service.StudentObjectService;
@@ -34,24 +34,7 @@ public class StudentController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private StudentObjectService studentObjectService;
 
-    @Autowired
-    private ObjectService objectService;
-
-    /**
-     * 提交试卷
-     * 1.提交选择题
-     *
-     * 2，提交判断题
-     *
-     * 3.提交主观题
-     * **/
-
-    /**
-     *查询考试成绩（学习记录）
-     * **/
 
     /***
      * 智能画像
@@ -80,49 +63,7 @@ public class StudentController {
         return R.success(students1);
     }
 
-    /**
-     * 加入课程
-     * **/
-    @GetMapping("/joinTheClass/{userId}/{subjectId}")
-    public R joinTheClass(@PathVariable Integer userId, @PathVariable Integer subjectId) {
-        List<StudentObject> studentObjects = studentObjectService.queryStudentObjectsByuserId(userId);
-        for (StudentObject studentObject : studentObjects) {
-            int objectId = studentObject.getObjectId();
-            if (objectId == subjectId) {
-                return R.error("已经加入课程，请勿重复加入");
-            }
-        }
-        try {
-            boolean i = studentObjectService.joinTheClass(userId, subjectId);
-            if (i) {
-                return R.success("加入课程成功");
-            }
-        } catch (Exception e) {
-            if (e.getCause() != null && e.getCause() instanceof dm.jdbc.driver.DMException) {
-                // 检查是否违反引用约束的特定异常
-                if (e.getCause().getMessage().contains("违反引用约束[CONS134218918]")) {
-                    return R.error("该课程不存在");
-                }
-            }
-            // 其他异常
-            return R.error("加入班级失败");
-        }
 
-        return R.error("加入班级失败");
-    }
-
-
-    /**
-     * 退出课程
-     * **/
-    @GetMapping("/leaveTheCorse/{userId}/{courseId}")
-    public R leaveTheCorse(@PathVariable Integer userId,@PathVariable Integer courseId ){
-        boolean b = studentObjectService.delStudentCourseByCourseId(userId, courseId);
-        if (b==true){
-            return R.success("退出课程成功");
-        }
-        return R.error("已经退出成功，请勿重复退出");
-    }
 
     /**
      * 查询学生个人信息
@@ -164,21 +105,5 @@ public class StudentController {
         return R.error("修改失败");
     }
 
-    /**
-     * 学生课程（我已经选好的）
-     * **/
-    @GetMapping("/getSubjectByUserId/{userId}")
-    public R getSubjectByUserId(@PathVariable int userId){
-        List<StudentObject> studentObjects = studentObjectService.queryStudentObjectsByuserId(userId);
-       ArrayList<Object> objectArrayList=new ArrayList<>();
-       if (studentObjects!=null){
-           for (StudentObject studentObject : studentObjects) {
-               int objectId = studentObject.getObjectId();
-               Object object = objectService.queryByObjectId(objectId);
-               objectArrayList.add(object);
-           }
-           return R.success(objectArrayList);
-       }
-      return R.success("未加入课程");
-    }
+
 }

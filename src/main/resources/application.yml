@@ -1,7 +1,19 @@
+server:
+  port: 8080
 #达梦
 spring:
   datasource:
-    driverClassName: dm.jdbc.driver.DmDriver
+    driver-class-name: dm.jdbc.driver.DmDriver
     url: jdbc:dm://localhost:5236/dm8?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8
     username: SYSDBA
     password: SYSDBA
+
+#MyBatis使用pageHelper分页
+#pagehelper:
+##  helper-dialect: mysql
+#  reasonable: true
+#  support-methods-arguments: true
+
+
+
+

@@ -3,8 +3,20 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.Mapper.StudentMapper">
+    <insert id="addStudent">
+        insert into "dm8"."student" values ('${userId}', NULL)
+    </insert>
+
 
     <select id="queryStudentByUserId" resultType="org.example.entity.Student">
         SELECT * FROM "dm8"."student" WHERE "user_id" = #{id}
+    </select>
+
+    <select id="queryStudentByClassRoom" resultType="org.example.entity.Student">
+        SELECT * FROM "dm8"."student" WHERE "classroom"=#{clssRoom}
+    </select>
+
+    <select id="queryStudentById" resultType="org.example.entity.ClassRoom">
+        SELECT * FROM "dm8"."student" WHERE "id"=#{id}
     </select>
 </mapper>

@@ -4,9 +4,53 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.Mapper.ExamMapper">
 
-    <insert id="addExam" parameterType="org.example.entity.Exam">
-        insert into "dm8"."exam_paper_library" values (#{name},#{courseId},#{createTeacher},#{startTime})
+    <insert id="addExam" parameterType="org.example.entity.Exam" useGeneratedKeys="true" keyProperty="id">
+            insert into "dm8"."exam" ("exam_name","subject_id","create_teacher","create_time","type")
+        values (#{examName},#{subjectId},#{createTeacher},#{createTime},#{type})
     </insert>
+
+    <insert id="addExamToRelatedExam" parameterType="org.example.entity.Exam">
+        insert into "dm8"."released_exam" values (#{examName},#{subjectId},#{createTeacher},#{createTime},#{className},#{duration},#{examId})
+    </insert>
+
+
+    <delete id="delCreateExam">
+        delete from "dm8"."exam" where "id" = #{id};
+    </delete>
+
+    <delete id="delRelatedExam">
+        delete from "dm8"."released_exam" where "exam_id" = #{id};
+    </delete>
+
+    <select id="getAllExams" resultType="org.example.entity.Exam">
+        select * from "dm8"."exam"
+        LIMIT #{offset}, #{size};
+    </select>
+
+
+
+    <select id="queryExamByExamId" resultType="org.example.entity.Exam">
+        SELECT * FROM "dm8"."exam" WHERE "id" =#{examId}
+    </select>
+
+    <select id="getAllExamsByCourseId" resultType="org.example.entity.Exam">
+        select * from "dm8"."exam" where "subject_id" =#{subjectId}
+                          LIMIT #{offset}, #{size};
+    </select>
+
+    <select id="queryExamBySubjectId" resultType="org.example.entity.Exam">
+        select * from "dm8"."released_exam" where "subject_id" =#{subjectId}
+    </select>
+
+    <select id="getAllExam" resultType="org.example.entity.Exam">
+        select * from "dm8"."exam"
+    </select>
+
+    <select id="getAllExamBySubjectId" resultType="org.example.entity.Exam">
+        select * from "dm8"."exam" where "subject_id" =#{subjectId}
+    </select>
+
+    <select id="queryByExamId" resultType="org.example.entity.Exam"></select>
 
 
 </mapper>

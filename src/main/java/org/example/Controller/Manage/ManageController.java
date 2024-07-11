@@ -1,4 +1,4 @@
-package org.example.Controller;
+package org.example.Controller.Manage;
 
 import org.example.Service.ClassRoomService;
 import org.example.Service.ObjectService;

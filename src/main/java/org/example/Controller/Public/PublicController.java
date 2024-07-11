@@ -1,4 +1,4 @@
-package org.example.Controller;
+package org.example.Controller.Public;
 
 import org.example.Service.ClassRoomService;
 import org.example.Service.StudentService;

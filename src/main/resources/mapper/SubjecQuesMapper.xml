@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.Mapper.SubjecQuesMapper">
+
+    <insert id="insertSubjecQuesintoQuestionBank" parameterType="org.example.entity.SubjecQues">
+        INSERT INTO "dm8"."subjective_questions" VALUES (#{questionId},#{rightKey})
+    </insert>
+
+    <delete id="deleteSubjecQuesByQuesInfoId">
+        DELETE FROM "dm8"."subjective_questions" WHERE "question_id" =#{quesInfoId};
+    </delete>
+
+</mapper>

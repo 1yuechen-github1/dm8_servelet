@@ -8,8 +8,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Object {
-
     private int id;
     private String objectName;
     private String major;
+    private String imagePath;
+//    private int sum;
+
 }

@@ -19,6 +19,7 @@ public class User {
   private String position;
   private String sex;
   private String idCard;
+  private String image;
   private org.example.entity.User User;
 
   public void setUser(User user1) {

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 //@MapperScan( basePackages = {"org.example.db_MySQL", "com.mapper.db_DM8"})
 @Configuration
 @EnableAsync    //添加启动类 @EnableAsy
+@MapperScan("org.example.Mapper")
 public class dm8 {
 
     @RequestMapping("/")
