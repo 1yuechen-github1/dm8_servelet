@@ -8,9 +8,9 @@ import io.kubernetes.client.openapi.apis.AutoscalingV1Api;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
 import io.kubernetes.client.openapi.models.*;
 import io.kubernetes.client.util.Yaml;
-import org.example.k8sapitest.config.K8sInfo;
-import org.example.k8sapitest.utils.MD5Util;
-import org.example.k8sapitest.utils.YamlUtil;
+import org.example.config.k8sConfig.K8sInfo;
+import org.example.utils.MD5Util;
+import org.example.utils.YamlUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;

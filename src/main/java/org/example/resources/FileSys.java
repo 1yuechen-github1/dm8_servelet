@@ -3,10 +3,9 @@ package org.example.resources;
 import io.kubernetes.client.Copy;
 import io.kubernetes.client.Exec;
 import io.kubernetes.client.openapi.ApiException;
-import org.example.k8sapitest.config.K8sInfo;
-import org.example.k8sapitest.pojo.Directory;
+import org.example.config.k8sConfig.K8sInfo;
+import org.example.pojo.Directory;
 import org.springframework.stereotype.Component;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

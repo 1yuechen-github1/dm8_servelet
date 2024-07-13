@@ -21,10 +21,10 @@ public class KubernetesConfig {
 
     @Bean
     public ApiClient apiClient() throws IOException {
-        InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("kubeconfig");
-        ApiClient apiClient = Config.fromConfig(resourceAsStream);
+//        InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("kubeconfig");
+//        ApiClient apiClient = Config.fromConfig(resourceAsStream);
 
-//        ApiClient apiClient = Config.defaultClient();
+        ApiClient apiClient = Config.defaultClient();
 
         io.kubernetes.client.openapi.Configuration.setDefaultApiClient(apiClient);
         return apiClient;
