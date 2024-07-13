@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driver-class-name: dm.jdbc.driver.DmDriver
-    url: jdbc:dm://localhost:5236/dm8?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:dm://36.138.114.105:30025/dm8?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8
     username: SYSDBA
     password: SYSDBA
 
