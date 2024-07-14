@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.Mapper.TrainingEnvironmentMapper">
+
+    <insert id="insertIntoTrainingEnvironment">
+        INSERT INTO "dm8"."training_environment" VALUES (#{environmentName}, #{environmentIntroduction},#{content},#{icon},#{creator})
+    </insert>
+
+    <insert id="createPracticalTraining">
+        INSERT INTO "dm8"."training_environment_teacher" VALUES
+        (#{title},#{courseId},#{teacherId},#{environmentId},#{startTime},#{endTime},#{type},#{content})
+    </insert>
+
+    <update id="updateTrainingEnvironment" parameterType="map">
+        UPDATE "dm8"."training_environment"
+        <set>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="environmentName != null">"environment_name" = #{environmentName},</if>
+            <if test="environmentIntroduction != null">"environment_introduction" = #{environmentIntroduction},</if>
+            <if test="content != null">"content" = #{content}</if>
+        </set>
+        <where>
+            <if test="id != null">"id" = #{id}</if>
+        </where>
+    </update>
+
+    <update id="updateTeacherTrainingEnvironment">
+            UPDATE "dm8"."training_environment_teacher"
+            <set>
+                <if test="title != null">
+                    "title" = #{title},
+                </if>
+                <if test="environmentId != null">
+                    "environment_id" = #{environmentId},
+                </if>
+                <if test="startTime != null">
+                    "start_time" = #{startTime},
+                </if>
+                <if test="endTime != null">
+                    "end_time" = #{endTime},
+                </if>
+                <if test="type != null">
+                    "type" = #{type}
+                </if>
+            </set>
+            <where>
+                "id" = #{id}
+            </where>
+    </update>
+
+    <delete id="delTrainingEnvironment">
+        DELETE FROM "dm8"."training_environment" WHERE id =#{id}
+    </delete>
+
+
+    <select id="getAllTrainingEnvironment" resultType="org.example.entity.TrainingEnvironment">
+        SELECT * FROM "dm8"."training_environment"
+    </select>
+
+    <select id="getTrainingEnvironmentById" resultType="org.example.entity.TrainingEnvironment">
+        SELECT * FROM "dm8"."training_environment" where id = #{environmentId}
+    </select>
+
+    <select id="getAllTeacherTrainingEnvironment" resultType="org.example.entity.TeacherTrainingEnvironment">
+        SELECT * FROM "dm8"."training_environment_teacher"
+                 where course_id = #{courseId} and id=#{trainingId} and type= #{type}
+    </select>
+
+    <select id="getAllTeacherTrainingEnvironments" resultType="org.example.entity.TeacherTrainingEnvironment">
+        SELECT * FROM "dm8"."training_environment_teacher"
+    </select>
+</mapper>

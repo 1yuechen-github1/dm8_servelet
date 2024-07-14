@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.Mapper.StudExamMapper">
+
+
+<!--    <insert id="addStudAnsoIntoStudExam">-->
+<!--    INSERT INTO "dm8"."exam_question" VALUES (#{examId},#{type},#{questionId},#{score},#{userId},#{myAnso})-->
+<!--    </insert>-->
+
+    <insert id="addStudAnsoIntoStudExam">
+        INSERT INTO "dm8"."exam_question"
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="examId != null">
+                "exam_id",
+            </if>
+            <if test="type != null">
+                "type",
+            </if>
+            <if test="questionId != null">
+                "question_id",
+            </if>
+            <if test="score != null">
+                "score",
+            </if>
+            <if test="userId != null">
+                "user_id",
+            </if>
+            <if test="myAnso != null">
+                "my_anso"
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="examId != null">
+                #{examId},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="questionId != null">
+                #{questionId},
+            </if>
+            <if test="score != null">
+                #{score},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="myAnso != null">
+                #{myAnso}
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertStudAnsoIntoStudExam" parameterType="map">
+        INSERT INTO "dm8"."student_exam"
+        ("user_id", "exam_id", "score")
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                '#{userId}',
+            </if>
+            <if test="examId != null">
+                '#{examId}',
+            </if>
+            <if test="score != null">
+                '#{score}'
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateStudAnsoIntoStudExam">
+        UPDATE "dm8"."exam_question" SET "score" = #{score}
+        WHERE "user_id" = #{userId} and "question_id" =#{questionId};
+    </update>
+
+
+
+    <update id="updateStudAnsosIntoStudExam">
+        UPDATE "dm8"."exam_question"
+        <set>
+            <if test="score != null">
+                "score" = #{score},
+            </if>
+            <if test="userId != null">
+                "user_id" = #{userId},
+            </if>
+            <if test="myAnso != null">
+                "my_anso" = #{myAnso}
+            </if>
+        </set>
+        <where>
+            <if test="questionId == null and userId != null">
+                "user_id" = #{userId}
+            </if>
+        </where>
+    </update>
+
+    <update id="updateOneStudAnsoIntoStudExam">
+            UPDATE "dm8"."exam_question"
+            SET
+            <trim prefix=" " suffixOverrides=",">
+                <if test="score != null">
+                    "score" = #{score},
+                </if>
+                "my_anso" = #{myAnso}
+            </trim>
+            WHERE "user_id" = #{userId} and "question_id" = #{questionId} and "exam_id" = #{examId}
+    </update>
+
+
+    <select id="queryAllSubjectiveQuestions" resultType="org.example.entity.ExamQuesInfo">
+        SELECT * FROM "dm8"."exam_question" WHERE "exam_id" = #{examId}
+        AND "type"='主观题'
+    </select>
+
+    <select id="queryExamQuesByexamId" resultType="org.example.entity.ExamQuesInfo">
+        SELECT * FROM "dm8"."exam_question" WHERE "exam_id" = #{examId}
+    </select>
+
+
+    <select id="queryExamQuesByexamIdUserId" resultType="org.example.entity.StudExam">
+        SELECT * FROM "dm8"."exam_question" WHERE "exam_id" = #{examId} AND "type" = #{type}
+                                              AND "user_id" =#{userId}
+                                                And "question_id"=#{questionId}
+    </select>
+<!--    <select id="queryExamQuesByexamIdUserId" resultType="org.example.entity.StudExam">-->
+<!--        SELECT * FROM "dm8"."exam_question" WHERE "id" =#{id}-->
+<!--    </select>-->
+
+
+    <select id="queryExamByExamIdAndCourseId" resultType="org.example.entity.Exam">
+        SELECT * FROM "dm8"."released_exam" WHERE "class_name" = #{className} AND "subject_id" = #{subjectId}
+    </select>
+</mapper>

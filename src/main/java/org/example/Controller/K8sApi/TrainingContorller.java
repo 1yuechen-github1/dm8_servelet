@@ -1,16 +1,34 @@
 package org.example.Controller.K8sApi;
 
+import lombok.extern.slf4j.Slf4j;
+import org.example.Mapper.TrainingEnvironmentMapper;
+import org.example.Service.TrainingEnvironmentService;
 import org.example.common.R;
+import org.example.entity.TeacherTrainingEnvironment;
+import org.example.entity.TrainingEnvironment;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.annotation.MultipartConfig;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/training")
 public class TrainingContorller {
+
+    @Autowired
+    private TrainingEnvironmentService trainingEnvironmentService;
+
+    String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/pic/";
+
+
     /**
      * 创建实训
      * @param content 实训内容以多图片形式上传
@@ -29,12 +47,46 @@ public class TrainingContorller {
                     @RequestParam Integer environmentId, @RequestParam String startTime,
                     @RequestParam String endTime, @RequestParam String type) {
         for (MultipartFile multipartFile : content) {
-            //处理图片内容
+            try {
+                // 保存文件
+                saveFile(multipartFile, uploadDir);
+            } catch (IOException e) {
+                log.error("Failed to save file: {}", multipartFile.getOriginalFilename(), e);
+                return R.error("文件保存失败: " + multipartFile.getOriginalFilename());
+            }
+        TeacherTrainingEnvironment trainingEnvironment =new TeacherTrainingEnvironment();
+        trainingEnvironment.setTitle(title);
+        trainingEnvironment.setType(type);
+        trainingEnvironment.setTeacherId(teacherId);
+        trainingEnvironment.setCourseId(courseId);
+        trainingEnvironment.setEnvironmentId(environmentId);
+        trainingEnvironment.setStartTime(startTime);
+        trainingEnvironment.setEndTime(endTime);
+        trainingEnvironment.setContent("pic/"+multipartFile.getOriginalFilename());
+        //插入实训----------------------------------------------------
+        boolean i= trainingEnvironmentService.createPracticalTraining(trainingEnvironment);
+        log.info( multipartFile.getOriginalFilename()+"{}创建实训是否成功{}",i);
+        }return R.error("创建成功");
+    }
+
+    private void saveFile(MultipartFile file, String uploadDir) throws IOException {
+        if (file.isEmpty()) {
+            throw new IOException("文件为空");
         }
 
-        //插入实训----------------------------------------------------
+        // 获取文件名
+        String fileName = file.getOriginalFilename();
 
-        return R.error("创建失败");
+        // 目标路径
+        Path path = Paths.get(uploadDir + fileName);
+
+        // 检查目录是否存在，不存在则创建
+        if (!Files.exists(path.getParent())) {
+            Files.createDirectories(path.getParent());
+        }
+
+        // 保存文件
+        Files.write(path, file.getBytes());
     }
 
     /**
@@ -49,8 +101,15 @@ public class TrainingContorller {
                     @RequestParam(required = false) String type) {
 
         //查找实训------------------------------------------------------
-
-        return R.error("");
+        TeacherTrainingEnvironment trainingEnvironment=trainingEnvironmentService.getAllTeacherTrainingEnvironment(courseId,trainingId,type);
+        if (trainingEnvironment!=null){
+            return R.success(trainingEnvironment);
+        }
+        //查询全部实训
+        else {
+            List<TeacherTrainingEnvironment> teacherTrainingEnvironments= trainingEnvironmentService.getAllTeacherTrainingEnvironments();
+            return R.success(teacherTrainingEnvironments);
+        }
     }
 
     /**
@@ -61,11 +120,21 @@ public class TrainingContorller {
      * @return
      */
     @PostMapping("/update")
-    public R update(@RequestParam Integer trainingId, @RequestParam String title,
-                    @RequestParam Integer environmentId, @RequestParam String startTime,
-                    @RequestParam String endTime, @RequestParam String type) {
-
-        return R.error("");
+    public R update(@RequestParam int trainingId, @RequestParam(required = false)  String title,
+                    @RequestParam(required = false)  int environmentId, @RequestParam(required = false)  String startTime,
+                    @RequestParam(required = false)  String endTime, @RequestParam(required = false) String type) {
+        TeacherTrainingEnvironment trainingEnvironment=new TeacherTrainingEnvironment();
+        trainingEnvironment.setId(trainingId);
+        trainingEnvironment.setTitle(title);
+        trainingEnvironment.setEnvironmentId(environmentId);
+        trainingEnvironment.setStartTime(startTime);
+        trainingEnvironment.setEndTime(endTime);
+        trainingEnvironment.setType(type);
+        boolean i= trainingEnvironmentService.updateTeacherTrainingEnvironment(trainingEnvironment);
+        if (i==true){
+            return R.success("更新成功");
+        }
+        return R.error("更新失败");
     }
 
     /**
