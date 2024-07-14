@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.Mapper.ClassRoomMapper">
+    <insert id="createClassRoom">
+        INSERT INTO "dm8"."classes" VALUES ( #{name},#{teacherId})
+    </insert>
+
+    <delete id="delClassByClassId" parameterType="int">
+        DELETE FROM "dm8"."classes" WHERE "id" = #{classId}
+    </delete>
+
+
+    <select id="queryByTeacherId" resultType="org.example.Dto.ClassDto">
+        SELECT "id", "class_name" AS className, "teacher_id" AS teacherId
+        FROM "dm8"."classes"
+        WHERE "teacher_id" = #{teacherId}
+    </select>
+
+
+    <select id="queryByClassName" resultType="org.example.entity.ClassRoom">
+        SELECT * FROM "dm8"."classes"
+        WHERE "class_name" = #{name}
+    </select>
+
+    <select id="getAllClassroom" resultType="org.example.entity.ClassRoom">
+        select * from "dm8"."classes"
+    </select>
+
+    <select id="queryStudentById" resultType="org.example.entity.ClassRoom">
+        select * from "dm8"."classes" where "id" = #{id}
+    </select>
+
+</mapper>

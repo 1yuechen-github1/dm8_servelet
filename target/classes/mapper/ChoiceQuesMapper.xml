@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.Mapper.ChoiceQuesMapper">
+
+
+    <insert id="insertChoiceQuesIntoQuestionBank">
+        INSERT INTO "dm8"."multiple_choice_questions" VALUES (#{teacherId},#{rightKey},#{choiceA},#{choiceB},#{choiceC},#{choiceD},#{questionId})
+    </insert>
+
+    <delete id="deletechoiceQuesByQuesInfoId">
+        DELETE FROM "dm8"."multiple_choice_questions" WHERE "question_id" =#{quesInfoId};
+    </delete>
+
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.Mapper.QuesInfoMapper">
+    <insert id="insertQuesIntoQuestionBank" parameterType="org.example.entity.QuesInfo" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO "dm8"."question_type_information" VALUES (#{type},#{level},#{courseId},#{teacherId},#{uploadTime},#{topicContent},#{rightKey},#{choice})
+    </insert>
+
+<!--    &#45;&#45;         INSERT INTO "dm8"."question_type_information" VALUES (#{type},#{level},#{courseId},#{teacherId},#{uploadTime},#{topicContent})-->
+
+
+    <!--    <insert id="addQuesInfo" useGeneratedKeys="true" keyColumn="question_type_information.id" parameterType="org.example.entity.QuesInfo">-->
+<!--        INSERT INTO "dm8"."question_type_information" VALUES (#{type},#{level},#{courseId},#{teacherId},#{uploadTime},#{topicContent},#{rightKey},#{choice})-->
+<!--    </insert>-->
+
+    <delete id="deleteQuestionIndoByQuesInfoId">
+        DELETE FROM "dm8"."question_type_information" WHERE "id"=#{quesInfoId};
+    </delete>
+
+    <select id="queryAllQuestionsByPager" resultType="org.example.entity.QuesInfo">
+        SELECT * FROM "dm8"."question_type_information"
+        LIMIT #{offset}, #{size};
+    </select>
+
+
+    <select id="queryQuestionInfoByQuesInfoId" resultType="org.example.entity.QuesInfo" >
+        SELECT * FROM "dm8"."question_type_information" WHERE "id"=#{quesInfoId}
+    </select>
+
+
+    <select id="randomSubjQues" resultType="org.example.entity.QuesInfo">
+        SELECT * FROM "dm8"."question_type_information" WHERE "type"='主观题' ORDER BY RAND() LIMIT #{subjQues};
+    </select>
+
+    <select id="randomTrueFalsejQues" resultType="org.example.entity.QuesInfo">
+        SELECT * FROM "dm8"."question_type_information" WHERE "type"='判断题' ORDER BY RAND() LIMIT #{trueFalse};
+    </select>
+
+    <select id="randomMutipleQues" resultType="org.example.entity.QuesInfo">
+        SELECT * FROM "dm8"."question_type_information" WHERE "type"='判断题' ORDER BY RAND() LIMIT #{mutipleQues};
+
+    </select>
+
+    <select id="queryAllQues" resultType="org.example.entity.QuesInfo">
+        select * from "dm8"."question_type_information" where "course_id" =#{subjectId}
+    </select>
+</mapper>

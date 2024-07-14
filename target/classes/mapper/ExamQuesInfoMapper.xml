@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.Mapper.ExamQuesInfoMapper">
+
+    <insert id="addQuesInfoIntoExam" parameterType="org.example.entity.ExamQuesInfo" >
+        INSERT INTO "dm8"."exam_question" VALUES (#{examId},#{type},#{questionId},'0','0','0','教师');
+    </insert>
+
+    <insert id="addQuesInfoIntoExam1" parameterType="org.example.entity.ExamQuesInfo" >
+        INSERT INTO "dm8"."exam_question" VALUES (#{examId},#{type},#{questionId},#{score},#{userId},'0','教师');
+    </insert>
+
+    <update id="updateScoreByQuesIdAndExamId">
+        UPDATE "dm8"."exam_question" SET "score" =#{score} WHERE  "user_id" = #{userId} AND "exam_id" = #{examId}
+                                                        AND "question_id" = #{questionId} And "name_type" = '学生'
+    </update>
+
+    <select id="queryExamByExamId" resultType="org.example.entity.ExamQuesInfo">
+        SELECT * FROM "dm8"."exam_question" WHERE "exam_id" =#{examId}
+    </select>
+
+    <select id="queryEveryQues" resultType="org.example.entity.ExamQuesInfo">
+        SELECT * FROM "dm8"."exam_question" WHERE "question_id" =#{quertionId} And "user_id" =#{userId}
+    </select>
+
+    <select id="queryTeachExamByExamId" resultType="org.example.entity.ExamQuesInfo">
+        SELECT * FROM "dm8"."exam_question" WHERE "exam_id" =#{examId} And "name_type" ='教师'
+
+    </select>
+
+
+    <select id="getExamQuesByExamIdAndUserId" resultType="org.example.entity.ExamQuesInfo">
+        SELECT * FROM "dm8"."exam_question" WHERE "exam_id" =#{examId} And "user_id" =#{userId}
+
+    </select>
+
+    <select id="getTeaScoreByExamId" resultType="org.example.entity.ExamQuesInfo">
+        SELECT * FROM "dm8"."exam_question" WHERE "exam_id" =#{examId} And "name_type"= '教师'
+
+    </select>
+
+    <select id="getStudScoreByExamId" resultType="org.example.entity.ExamQuesInfo">
+        SELECT * FROM "dm8"."exam_question" WHERE "exam_id" =#{examId} And "name_type"= '学生'
+
+    </select>
+
+    <select id="queryByExamId" resultType="org.example.entity.ExamQuesInfo">
+        SELECT * FROM "dm8"."exam_question" WHERE "exam_id" =#{id} And "name_type"= '教师'
+    </select>
+
+    <select id="countStudent" resultType="int">
+                SELECT COUNT(DISTINCT "user_id")
+        FROM "dm8"."exam_question" WHERE "exam_id" = #{id} AND "name_type" ='学生';
+</select>
+
+    <select id="queryExamPaperLibrarysByExamId" resultType="org.example.entity.ExamQuesInfo">
+        SELECT * FROM "dm8"."exam_question"
+        WHERE "exam_id" = #{examId}
+          AND "name_type" = '学生'
+          AND "user_id" = #{userId}
+          AND "type" = '简答题';
+    </select>
+
+    <insert id="addQuesInfoIntoExams" parameterType="org.example.entity.ExamQuesInfo" >
+        INSERT INTO "dm8"."exam_question" VALUES (#{examId},#{type},#{questionId},'0',#{userId},'0','学生');
+    </insert>
+</mapper>

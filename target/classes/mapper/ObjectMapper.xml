@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.Mapper.ObjectMapper">
+
+    <!-- Result map to map result set to User object -->
+    <resultMap id="BaseResultMap" type="org.example.entity.Object">
+        <id column="id" property="id"/>
+        <result column="objectName" property="objectName"/>
+        <result column="major" property="major"/>
+    </resultMap>
+<!--    <insert id="createCourse" parameterType="String">-->
+<!--        INSERT INTO "dm8"."object" ("object_name", "major","fileName1")-->
+<!--        VALUES (#{name}, #{major},#{image_path})-->
+<!--    </insert>-->
+
+    <insert id="createCourse" parameterType="java.util.Map">
+        INSERT INTO "dm8"."object" ("object_name", "major", "image_path","teacher_id")
+        VALUES (#{name}, #{major}, #{fileName1},#{teacherId})
+    </insert>
+
+    <insert id="addStudent" parameterType="int">
+        INSERT INTO "dm8"."student_object" VALUES (#{userId},#{objectId});
+    </insert>
+
+<!--    <update id="updateSubject" parameterType="org.example.entity.Object">-->
+<!--        UPDATE "dm8"."object"-->
+<!--        SET "object_name" = #{objectName},-->
+<!--            "major" = #{major},-->
+<!--            "image_path" = COALESCE(#{imagePath}, NULL)-->
+<!--        WHERE "id" = #{id}-->
+
+<!--    </update>-->
+
+    <update id="updateSubject" parameterType="org.example.entity.Object">
+        UPDATE "dm8"."object"
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="objectName != null">
+                "object_name" = #{objectName},
+            </if>
+            <if test="major != null">
+                "major" = #{major},
+            </if>
+            <if test="imagePath != null">
+                "image_path" = #{imagePath},
+            </if>
+        </trim>
+        WHERE "id" = #{id}
+    </update>
+
+
+    <delete id="delObjectBySubjectId">
+        DELETE  FROM "dm8"."object"
+        WHERE  "id" = '${subjectId}'
+    </delete>
+
+    <select id="queryByObject" resultType="org.example.entity.Object">
+        SELECT * FROM "dm8"."object" WHERE "object_name" = #{courseName}
+    </select>
+
+    <select id="queryByObjectId" resultType="org.example.entity.Object">
+        SELECT * FROM "dm8"."object" WHERE "id" = #{courseId}
+    </select>
+
+    <select id="queryByObjectByTeacherId" resultType="org.example.entity.Object">
+        SELECT * FROM "dm8"."object" WHERE "teacher_id" = #{teacherId};
+    </select>
+
+
+    <select id="queryByObjectByTeacherIdAndClass" resultType="org.example.entity.Object">
+        SELECT * FROM "dm8"."object" WHERE "teacher_id" = #{teacherId}
+        AND "class_room" = #{className}
+
+    </select>
+
+    <select id="queryClassRoomIdBySubjectId" resultType="org.example.entity.ClassRoomObject">
+        select * from  "dm8"."object_classes" where "object_id" = #{subjectId}
+    </select>
+
+
+</mapper>

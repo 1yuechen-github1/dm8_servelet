@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.Mapper.TrueFalseMapper">
+
+    <insert id="insertTrueOrFalseintoQuestionBank" parameterType="org.example.entity.TrueFalse">
+        INSERT INTO "dm8"."true_false" VALUES (#{questionId},#{rightKey},#{choiceTrue},#{choiceFalse})
+    </insert>
+
+    <delete id="deleteTrueFalseQuesByQuesInfoId">
+        DELETE FROM "dm8"."true_false" WHERE "question_id" =#{quesInfoId};
+    </delete>
+
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.Mapper.UserMapper">
+
+    <!-- Result map to map result set to User object -->
+    <resultMap id="BaseResultMap" type="org.example.entity.User">
+        <id column="id" property="id"/>
+        <result column="username" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <!-- 插入新用户 -->
+    <insert id="insertUser" parameterType="org.example.entity.User"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO "dm8"."users" ("username", "password", "status", "create_time","position","email","real_name","sex","id_card")
+        VALUES (#{userName}, #{password}, #{status}, #{createTime}, #{position}, #{email} ,#{realName} ,#{sex},#{idCard})
+    </insert>
+
+
+        <update id="updateUserByUserId" parameterType="org.example.entity.User">
+        UPDATE "dm8"."users"
+        <set>
+            <trim suffixOverrides=",">
+                <if test="email != null">
+                    "email" = #{email},
+                </if>
+                <if test="phone != null">
+                    "phone" = #{phone},
+                </if>
+                <if test="sex != null">
+                    "sex" = #{sex},
+                </if>
+                <if test="idCard != null">
+                    "id_card" = #{idCard},
+                </if>
+                <if test="image != null">
+                    "image" = #{image}
+                </if>
+            </trim>
+        </set>
+        WHERE "id" = #{id};
+    </update>
+
+<!--    <update id="updateUserByUserId" parameterType="org.example.entity.User">-->
+<!--        UPDATE "dm8"."users"-->
+<!--        SET "email" = #{email},-->
+<!--            "phone" = #{phone},-->
+<!--            "sex" = #{sex},-->
+<!--            "id_card" = #{idCard}-->
+<!--        WHERE "id" = #{id};-->
+<!--    </update>-->
+
+
+
+    <!-- SQL query to get user by username -->
+    <select id="getUserByUserName" resultMap="BaseResultMap">
+        SELECT *
+        FROM "dm8"."users"
+        WHERE "username" = #{userName}
+    </select>
+
+    <select id="getUserById" resultType="org.example.entity.User">
+        SELECT *
+        FROM "dm8"."users"
+        WHERE "id" = #{id}
+    </select>
+</mapper>
