@@ -19,15 +19,12 @@ import java.util.Map;
 
 @Component
 public class Container {
-    private AppsV1Api appsV1Api;
     private CoreV1Api coreV1Api;
-    private AutoscalingV1Api autoscalingV1Api;
 
-    public Container(AppsV1Api appsV1Api, CoreV1Api coreV1Api, AutoscalingV1Api autoscalingV1Api) {
-        this.appsV1Api = appsV1Api;
+    public Container(CoreV1Api coreV1Api) {
         this.coreV1Api = coreV1Api;
-        this.autoscalingV1Api = autoscalingV1Api;
     }
+
 
     /**
      * 为学生创建指定容器

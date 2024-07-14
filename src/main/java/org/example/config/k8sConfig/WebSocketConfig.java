@@ -26,9 +26,6 @@ import java.util.Objects;
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
-
-    @Autowired
-    private Container container;
     @Override
     public void registerWebSocketHandlers(@NotNull WebSocketHandlerRegistry registry) {
         registry.addHandler(new TerminalWebSocketHandler(), "/ws")

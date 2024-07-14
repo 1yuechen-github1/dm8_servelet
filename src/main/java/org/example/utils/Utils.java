@@ -19,6 +19,10 @@ public class Utils {
         }
     }
 
+    public static V1Pod existingPod(String course, String clas, String student, String training) {
+        return Utils.existingPod(MD5Util.getPodName(course, clas, student, training));
+    }
+
     public static V1Service existingService(String serviceName){
         try {
             return coreV1Api.readNamespacedService(serviceName, K8sInfo.NAMESPACE, null);
