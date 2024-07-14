@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface TrainingEnvironmentMapper {
 
-    public List<TrainingEnvironment> getAllTrainingEnvironment();
+    List<TrainingEnvironment> getAllTrainingEnvironment();
 
     boolean insertIntoTrainingEnvironment(TrainingEnvironment trainingEnvironment);
 
